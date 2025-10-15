@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  ocr-factory:
+    build: .
+    container_name: ocr-factory
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./service-account.json:/app/service-account.json:ro
+    env_file:
+      - .env
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    # Optional: limit resources
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          memory: 512M
